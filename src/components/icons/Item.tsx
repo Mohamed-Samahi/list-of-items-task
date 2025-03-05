@@ -1,6 +1,6 @@
 const Item = () => {
     return (
-        <svg fill="#004275" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" stroke="#004275" width="40" height="40">
+        <svg fill="#004275" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" stroke="#004275" width="40" height="40" className="max-[1023px]:-mt-1">
             <g id="svgRepoBgCarrier" strokeWidth="0"></g>
             <g id="svgRepoTracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
             <g id="svgRepoIconCarrier">
