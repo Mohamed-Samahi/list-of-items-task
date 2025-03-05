@@ -4,38 +4,63 @@ import { useForm } from 'react-hook-form';
 
 import { useModal } from '../../context/ModalContext';
 
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { createItemAction, updateItemAction } from '../../redux/actions/itemsActions';
+
 import Button from '../ui/button';
 import Input from '../ui/input';
 import Textarea from '../ui/textarea';
 
 import { Edit, Plus } from '../icons';
+
 import { ListItem } from '../../types';
+import { toast } from 'sonner';
 
 interface ItemModalProps {
     isUpdateModal?: boolean;
+    item?: ListItem;
 }
 
-const ItemModal: React.FC<ItemModalProps & Partial<ListItem>> = ({ title, description, isUpdateModal = false }) => {
+const ItemModal: React.FC<ItemModalProps> = ({
+    isUpdateModal = false,
+    item
+}) => {
+    const dispatch = useAppDispatch();
+    const { loading } = useAppSelector(state => state.items);
     const { closeModal } = useModal();
 
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm({
         defaultValues: {
-            title: title || '',
-            description: description || '',
+            title: item?.title || '',
+            description: item?.description || '',
         },
         mode: 'onChange',
     });
 
-    const onSubmit = (data: { title: string; description: string }) => {
+    const onSubmit = async (data: { title: string; description: string }) => {
+
         try {
-            if (isUpdateModal) {
-                console.log('Updating item:', data);
+            if (isUpdateModal && item) {
+                await dispatch(updateItemAction({
+                    id: item.id,
+                    title: data.title,
+                    body: data.description?.length ? data.description : undefined
+                })).unwrap();
+
             } else {
-                console.log('Adding item:', data);
+                await dispatch(createItemAction({
+                    title: data.title,
+                    body: data.description?.length ? data.description : undefined
+                })).unwrap();
+
             }
+
+            toast.success(`Item ${isUpdateModal ? 'updated' : 'created'} successfully!`);
             closeModal();
         } catch (error) {
             console.error('Error submitting form:', error);
+            toast.error(`Failed to ${isUpdateModal ? 'update' : 'create'} item!`);
+            closeModal();
         }
     };
 
@@ -44,7 +69,7 @@ const ItemModal: React.FC<ItemModalProps & Partial<ListItem>> = ({ title, descri
             <div className="w-full mb-4">
                 <div className='flex items-start justify-between w-full'>
                     <div className='flex justify-start w-full'>
-                        <div className='p-2 rounded-full border-5 lg:border-8 border-Brand-50/95 bg-Brand-100/95 lg:p-3'>
+                        <div className='p-3 border-8 rounded-full border-Brand-50/95 bg-Brand-100/95'>
                             {
                                 isUpdateModal ?
                                     <Edit stroke='#00213A' /> :
@@ -82,8 +107,12 @@ const ItemModal: React.FC<ItemModalProps & Partial<ListItem>> = ({ title, descri
                 <Button
                     type='submit'
                     className='w-full py-1 md:py-2 min-w-20 md:min-w-28'
+                    disabled={isUpdateModal ? loading.updating : loading.creating}
                 >
-                    {isUpdateModal ? 'Update' : 'Add'}
+                    {isUpdateModal
+                        ? (loading.updating ? 'Updating...' : 'Update')
+                        : (loading.creating ? 'Adding...' : 'Add')
+                    }
                 </Button>
             </form>
         </>
