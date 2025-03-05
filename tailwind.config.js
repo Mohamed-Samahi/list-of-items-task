@@ -51,6 +51,15 @@ export default {
         activeElementBoxShadow:
           "0px 1px 2px 0px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #E3F6FF",
       },
+      fontSize: {
+        'lg': ['clamp(1rem, 1vw + 0.125rem, 1.125rem)', { lineHeight: '1.5' }],
+        'xl': ['clamp(1.125rem, 1vw + 0.125rem, 1.25rem)', { lineHeight: '1.5' }],
+        '2xl': ['clamp(1.25rem, 1vw + 0.25rem, 1.5rem)', { lineHeight: '1.5' }],
+        '3xl': ['clamp(1.5rem, 1vw + 0.375rem, 1.875rem)', { lineHeight: '1.5' }],
+        '4xl': ['clamp(1.875rem, 1vw + 0.375rem, 2.25rem)', { lineHeight: '1.5' }],
+        '5xl': ['clamp(2.25rem, 1vw + 0.5rem, 3rem)', { lineHeight: '1.5' }],
+        '6xl': ['clamp(3rem, 1vw + 0.5rem, 3.75rem)', { lineHeight: '1.5' }],
+      }
     },
   },
   plugins: [],
