@@ -6,11 +6,16 @@ import App from './App.tsx'
 import { ModalProvider } from './context/ModalContext.tsx'
 import ModalWrapper from './components/modals/modal-wrapper.tsx'
 
+import { Provider } from 'react-redux'
+import { store } from './redux/store.ts'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ModalProvider>
-      <App />
-      <ModalWrapper />
-    </ModalProvider>
+    <Provider store={store}>
+      <ModalProvider>
+        <App />
+        <ModalWrapper />
+      </ModalProvider>
+    </Provider>
   </StrictMode>,
 )
