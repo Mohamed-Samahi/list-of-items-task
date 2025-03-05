@@ -21,7 +21,7 @@ const ListItem: React.FC<ListItemProps> = ({ id, title, description }) => {
                 isUpdateModal={true}
             />
         );
-    }, [id]);
+    }, [id, title, description]);
 
     const handleDeleteListItem = useCallback(() => {
         openModal(
@@ -30,7 +30,7 @@ const ListItem: React.FC<ListItemProps> = ({ id, title, description }) => {
                 itemTitle={title}
             />
         );
-    }, [id]);
+    }, [id, title, description]);
 
     // const todaysFormatedDate = useMemo(() => {
     //     return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
