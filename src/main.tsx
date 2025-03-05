@@ -9,6 +9,7 @@ import ModalWrapper from './components/modals/modal-wrapper.tsx'
 import { Provider } from 'react-redux'
 import { store } from './redux/store.ts'
 import { BrowserRouter } from 'react-router-dom'
+import Footer from './components/Footer.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
       <Provider store={store}>
         <ModalProvider>
           <App />
+          <Footer />
           <ModalWrapper />
         </ModalProvider>
       </Provider>
