@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jsonPlaceholderService } from '../../services/jsonplaceholderService';
 
 import { ListItem } from '../../types';
+import { updateLocalItem } from '../slices/itemsSlices';
 
 export const fetchItemsAction = createAsyncThunk(
     'items/fetchItems',
@@ -20,8 +21,17 @@ export const createItemAction = createAsyncThunk(
 
 export const updateItemAction = createAsyncThunk(
     'items/updateItem',
-    async (item: ListItem) => {
-        return await jsonPlaceholderService.updateItem(item);
+    async (item: ListItem, { dispatch }) => {
+        try {
+            // Try to update via API
+            const response = await jsonPlaceholderService.updateItem(item);
+            return response;
+        } catch (error) {
+            // If update fails (e.g., item doesn't exist on server)
+            // Update locally in Redux state
+            dispatch(updateLocalItem(item));
+            return item;
+        }
     }
 );
 

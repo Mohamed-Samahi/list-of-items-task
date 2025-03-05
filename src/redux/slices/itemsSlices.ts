@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
     fetchItemsAction,
@@ -7,7 +7,7 @@ import {
     deleteItemAction
 } from '../actions/itemsActions';
 
-import { ItemsState } from '../../types';
+import { ItemsState, ListItem } from '../../types';
 
 const initialState: ItemsState = {
     items: [],
@@ -23,7 +23,18 @@ const initialState: ItemsState = {
 const itemsSlice = createSlice({
     name: 'items',
     initialState,
-    reducers: {},
+    reducers: {
+        // Add a reducer to directly update an item in the state
+        updateLocalItem: (state, action: PayloadAction<ListItem>) => {
+            const index = state.items.findIndex(item => item.id === action.payload.id);
+            if (index !== -1) {
+                state.items[index] = {
+                    ...state.items[index],
+                    ...action.payload
+                };
+            }
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchItemsAction.pending, (state) => {
             state.loading.fetching = true;
@@ -83,5 +94,7 @@ const itemsSlice = createSlice({
         });
     }
 });
+
+export const { updateLocalItem } = itemsSlice.actions;
 
 export default itemsSlice.reducer;
