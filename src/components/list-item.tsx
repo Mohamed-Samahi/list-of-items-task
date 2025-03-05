@@ -37,7 +37,7 @@ const ListItem: React.FC<ListItemProps> = ({ id, title, description }) => {
     // }, [id])
 
     return (
-        <div className="flex items-start w-full gap-3 p-5 overflow-hidden shadow bg-gray-50/95 rounded-xl min-h-fit">
+        <div className="flex items-start w-full gap-3 p-5 shadow bg-gray-50/95 rounded-xl min-h-fit">
             <Item />
             <div className='flex flex-col items-start justify-between w-full overflow-hidden'>
                 <h3 className={`text-lg md:text-xl lg:text-2xl xl:text-3xl text-Brand-700 font-semibold block truncate transition-all`}>
