@@ -9,6 +9,7 @@ import ItemModal from './components/modals/item-modal';
 import Plus from './components/icons/Plus';
 
 import './App.css';
+import { Toaster } from 'sonner';
 
 function App() {
   const { openModal } = useModal();
@@ -42,6 +43,12 @@ function App() {
         </div>
 
       </div>
+
+      <Toaster
+        position="top-right"
+        richColors
+        expand={false}
+      />
     </main>
   );
 }
