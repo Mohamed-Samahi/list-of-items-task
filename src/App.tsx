@@ -1,3 +1,5 @@
+import { useSearchParams } from 'react-router-dom';
+
 import { useModal } from './context/ModalContext';
 
 import Button from './components/ui/button';
@@ -8,16 +10,27 @@ import ItemModal from './components/modals/item-modal';
 
 import Plus from './components/icons/Plus';
 
-import './App.css';
 import { Toaster } from 'sonner';
+
+import './App.css';
+import Arrow from './components/icons/Arrow';
 
 function App() {
   const { openModal } = useModal();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sortOrder = searchParams.get('sort') as 'asc' | 'desc' || 'asc';
 
   const handleOpenItemModal = () => {
     openModal(
       <ItemModal />
     );
+  }
+
+  const toggleSortOrder = () => {
+    const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    setSearchParams({ sort: newSortOrder });
   }
 
   return (
@@ -31,15 +44,28 @@ function App() {
 
           <hr className='w-full bg-[#EAECF0]' />
 
-          <Button
-            onClick={handleOpenItemModal}
-            className='flex items-center gap-2'
-          >
-            <Plus />
-            New Item
-          </Button>
+          <div className='flex items-center justify-between w-full'>
+            <Button
+              onClick={toggleSortOrder}
+              className="!bg-white text-Gray-500 border-Gray-500 flex items-center gap-2"
+            >
+              <div className={`${sortOrder === 'asc' ? 'rotate-90' : '-rotate-90'} transition-all`}>
+                <Arrow width={16} height={16} />
+              </div>
+              Sort
+            </Button>
+            <Button
+              onClick={handleOpenItemModal}
+              className='flex items-center gap-2'
+            >
+              <Plus />
+              New Item
+            </Button>
+          </div>
 
-          <ItemsList />
+          <ItemsList
+            sortOrder={sortOrder}
+          />
         </div>
 
       </div>
