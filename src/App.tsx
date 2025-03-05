@@ -1,9 +1,23 @@
-import './App.css';
-import Plus from './components/icons/Plus';
-import ItemsList from './components/items-list';
+import { useModal } from './context/ModalContext';
+
 import Button from './components/ui/button';
 
+import ItemsList from './components/items-list';
+
+import ItemModal from './components/modals/item-modal';
+
+import Plus from './components/icons/Plus';
+
+import './App.css';
+
 function App() {
+  const { openModal } = useModal();
+
+  const handleOpenItemModal = () => {
+    openModal(
+      <ItemModal />
+    );
+  }
 
   return (
     <main className="flex items-center justify-center text-black bg-gray-100/95">
@@ -17,7 +31,7 @@ function App() {
           <hr className='w-full bg-[#EAECF0]' />
 
           <Button
-            onClick={() => { console.log("clicked") }}
+            onClick={handleOpenItemModal}
             className='flex items-center gap-2'
           >
             <Plus />
