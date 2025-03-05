@@ -2,17 +2,30 @@ import React, { useCallback } from 'react'
 
 import { useModal } from '../../context/ModalContext';
 
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { deleteItemAction } from '../../redux/actions/itemsActions';
+
 import Button from '../ui/button';
 
 import { AlertCircle } from '../icons';
+import { toast } from 'sonner';
 
-const DeleteItemModal = ({ itemId, itemTitle }: { itemId: string; itemTitle: string }) => {
+const DeleteItemModal = ({ itemId, itemTitle }: { itemId: number; itemTitle: string }) => {
+    const dispatch = useAppDispatch();
+    const { loading } = useAppSelector(state => state.items);
     const { closeModal } = useModal();
 
-    const handleDeleteListItem = useCallback(() => {
-        console.log(itemId);
-        closeModal();
-    }, [itemId]);
+    const handleDeleteListItem = useCallback(async () => {
+        try {
+            await dispatch(deleteItemAction(itemId)).unwrap();
+
+            toast.success('Item deleted successfully!');
+            closeModal();
+        } catch (error) {
+            toast.error('Failed to delete item!');
+            console.error('Failed to delete item:', error);
+        }
+    }, [itemId, dispatch, closeModal]);
 
     return (
         <div className='flex flex-col items-center gap-3 md:gap-5 lg:gap-7'>
@@ -31,9 +44,10 @@ const DeleteItemModal = ({ itemId, itemTitle }: { itemId: string; itemTitle: str
             </div>
             <Button
                 onClick={handleDeleteListItem}
-                className='!bg-red-700 !border-red-700 w-full'
+                className='!bg-Error-700 !border-Error-700 w-full disabled:!bg-Error-400'
+                disabled={loading.deleting}
             >
-                Delete
+                {loading.deleting ? 'Deleting...' : 'Delete'}
             </Button>
         </div>
     )
