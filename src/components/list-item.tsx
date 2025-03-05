@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 
 import { useModal } from "../context/ModalContext";
 
@@ -7,7 +7,7 @@ import DeleteItemModal from "./modals/delete-item-modal";
 
 import Button from "./ui/button";
 
-import { Calender, Edit, Item, Trash } from "./icons";
+import { Edit, Item, Trash } from "./icons";
 
 import { ListItem as ListItemProps } from "../types";
 
@@ -17,8 +17,7 @@ const ListItem: React.FC<ListItemProps> = ({ id, title, description }) => {
     const handleOpenItemModal = useCallback(() => {
         openModal(
             <ItemModal
-                title={title}
-                description={description}
+                item={{ id, title, description }}
                 isUpdateModal={true}
             />
         );
@@ -27,15 +26,15 @@ const ListItem: React.FC<ListItemProps> = ({ id, title, description }) => {
     const handleDeleteListItem = useCallback(() => {
         openModal(
             <DeleteItemModal
-                itemId={id}
+                itemId={id as number}
                 itemTitle={title}
             />
         );
     }, [id]);
 
-    const todaysFormatedDate = useMemo(() => {
-        return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
-    }, [id])
+    // const todaysFormatedDate = useMemo(() => {
+    //     return `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
+    // }, [id])
 
     return (
         <div className="flex items-start w-full gap-3 p-5 overflow-hidden shadow bg-gray-50/95 rounded-xl min-h-fit">
@@ -47,12 +46,12 @@ const ListItem: React.FC<ListItemProps> = ({ id, title, description }) => {
                 <p className="truncate xl:text-lg text-Gray-600">
                     {description ?? <>No description!</>}
                 </p>
-                <div className={`flex flex-row items-center flex-wrap gap-2 transition-all mt-1`}>
+                {/* <div className={`flex flex-row items-center flex-wrap gap-2 transition-all mt-1`}>
                     <span className='flex items-center gap-2 w-fit pr-2 py-[0.125rem] rounded-full text-xs font-medium whitespace-nowrap'>
                         <Calender />
                         {todaysFormatedDate}
                     </span>
-                </div>
+                </div> */}
             </div>
             <div className='flex items-center justify-end gap-1 ml-auto w-fit sm:gap-3'>
                 <Button
