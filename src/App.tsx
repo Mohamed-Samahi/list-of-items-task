@@ -35,7 +35,7 @@ function App() {
 
   return (
     <main className="flex items-center justify-center text-black bg-gray-100/95">
-      <div className="min-h-screen h-screen overflow-hidden p-2 sm:p-4 max-w-[800px] w-full">
+      <div className="min-h-screen sm:h-screen overflow-hidden p-2 sm:p-4 max-w-[800px] w-full">
 
         <div className="flex flex-col items-start h-full gap-6 p-4">
           <h1 className="mb-3 text-4xl font-bold lg:text-5xl xl:text-6xl lg:mb-3">
