@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     error?: string;
-    label?: string; // Optional label text
+    label?: string;
 }
 
-const Input: React.FC<InputProps> = ({ error, label, ...props }) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ error, label, ...props }, ref) => {
     return (
         <div className="relative flex flex-col w-full group">
             {label && (
@@ -20,6 +20,7 @@ const Input: React.FC<InputProps> = ({ error, label, ...props }) => {
                 >
                     <div className="box-border inline-flex items-center w-full h-full">
                         <input
+                            ref={ref}
                             type="text"
                             className={`px-5 py-3 w-full font-normal bg-transparent outline-none placeholder:text-foreground-500 focus-visible:outline-none text-md`}
                             {...props}
@@ -32,6 +33,6 @@ const Input: React.FC<InputProps> = ({ error, label, ...props }) => {
             )}
         </div>
     );
-};
+});
 
 export default React.memo(Input);

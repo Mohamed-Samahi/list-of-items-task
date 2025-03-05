@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
     error?: string;
-    label?: string; // Optional label text
+    label?: string;
 }
 
-const Textarea: React.FC<TextareaProps> = ({ error, label, ...props }) => {
+const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({ error, label, ...props }, ref) => {
     return (
         <div className="relative flex flex-col w-full group">
             {label && (
@@ -20,6 +20,7 @@ const Textarea: React.FC<TextareaProps> = ({ error, label, ...props }) => {
                 >
                     <div className="box-border inline-flex items-center w-full h-full">
                         <textarea
+                            ref={ref}
                             rows={4}
                             className={`px-5 py-3 w-full font-normal bg-transparent outline-none placeholder:text-foreground-500 focus-visible:outline-none text-md resize-none`}
                             {...props}
@@ -32,6 +33,6 @@ const Textarea: React.FC<TextareaProps> = ({ error, label, ...props }) => {
             )}
         </div>
     );
-};
+});
 
 export default React.memo(Textarea);
