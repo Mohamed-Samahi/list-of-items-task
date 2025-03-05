@@ -9,11 +9,7 @@ import Button from "./ui/button";
 
 import { Calender, Edit, Item, Trash } from "./icons";
 
-interface ListItemProps {
-    id: string;
-    title: string;
-    description?: string;
-}
+import { ListItem as ListItemProps } from "../types";
 
 const ListItem: React.FC<ListItemProps> = ({ id, title, description }) => {
     const { openModal } = useModal();

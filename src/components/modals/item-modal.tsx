@@ -9,14 +9,13 @@ import Input from '../ui/input';
 import Textarea from '../ui/textarea';
 
 import { Edit, Plus } from '../icons';
+import { ListItem } from '../../types';
 
 interface ItemModalProps {
-    title?: string;
-    description?: string;
     isUpdateModal?: boolean;
 }
 
-const ItemModal: React.FC<ItemModalProps> = ({ title, description, isUpdateModal = false }) => {
+const ItemModal: React.FC<ItemModalProps & Partial<ListItem>> = ({ title, description, isUpdateModal = false }) => {
     const { closeModal } = useModal();
 
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm({
