@@ -20,7 +20,7 @@ function App() {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const sortOrder = searchParams.get('sort') as 'asc' | 'desc' || 'asc';
+  const sortOrder = searchParams.get('sort') as 'asc' | 'desc';
 
   const handleOpenItemModal = () => {
     openModal(
@@ -29,8 +29,12 @@ function App() {
   }
 
   const toggleSortOrder = () => {
-    const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    const newSortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
     setSearchParams({ sort: newSortOrder });
+  }
+
+  const removeSortOrder = () => {
+    setSearchParams({});
   }
 
   return (
@@ -45,15 +49,23 @@ function App() {
           <hr className='w-full bg-[#EAECF0]' />
 
           <div className='flex items-center justify-between w-full'>
-            <Button
-              onClick={toggleSortOrder}
-              className="!bg-white !text-Gray-500 border-Gray-500 flex items-center gap-2"
-            >
-              <div className={`${sortOrder === 'asc' ? 'rotate-90' : '-rotate-90'} transition-all`}>
-                <Arrow width={16} height={16} />
-              </div>
-              Sort
-            </Button>
+            <div className='flex items-center gap-2'>
+              <Button
+                onClick={toggleSortOrder}
+                className="!bg-white !text-Gray-500 border-Gray-500 flex items-center gap-2"
+              >
+                <div className={`${sortOrder === 'desc' ? 'rotate-90' : '-rotate-90'} transition-all`}>
+                  <Arrow width={16} height={16} />
+                </div>
+                Sort
+              </Button>
+              <Button
+                onClick={removeSortOrder}
+                className="!bg-white !text-Gray-500 border-Gray-500 flex items-center gap-2"
+              >
+                Reset Sort
+              </Button>
+            </div>
             <Button
               onClick={handleOpenItemModal}
               className='flex items-center gap-2'

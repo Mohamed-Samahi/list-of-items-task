@@ -9,7 +9,7 @@ import { ListItem as ListItemType } from '../types';
 
 import { sortItems } from '../lib/sortItems';
 
-const ItemsList = ({ sortOrder = 'asc' }: { sortOrder?: 'asc' | 'desc' }) => {
+const ItemsList = ({ sortOrder }: { sortOrder?: 'asc' | 'desc' }) => {
     const dispatch = useAppDispatch();
     const { items, loading } = useAppSelector(state => state.items);
 
@@ -18,7 +18,7 @@ const ItemsList = ({ sortOrder = 'asc' }: { sortOrder?: 'asc' | 'desc' }) => {
     }, [dispatch]);
 
     const sortedItems = useMemo(() => {
-        return sortItems(items ?? [], sortOrder);
+        return sortOrder ? sortItems(items ?? [], sortOrder) : items;
     }, [items, sortOrder]);
 
     if (loading.fetching) return <div className='text-lg font-semibold text-Brand-700'>Loading items...</div>;
